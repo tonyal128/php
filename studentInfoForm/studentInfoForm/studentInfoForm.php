@@ -15,6 +15,10 @@
 
 <script src="css3-mediaqueries.js"></script>
 <script src="jquery-3.2.1.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 <script>
 
 	$(document).ready(function(){
@@ -177,10 +181,12 @@
         $careerGoalsErr = "";
         $threewordsErr = "";
 		$honeyPot = "";
+		$message = "";
         $validForm = false;
     
         function validateFirstName($firstName){
-            global $validForm, $firstNameErr;
+			global $validForm, $firstNameErr;
+
             if(!strlen($firstName) > 0){
                 $validForm = false;
                 $firstNameErr .= "First name cannot be blank. ";
@@ -193,7 +199,7 @@
     
         function validateLastName($lastName){
             global $validForm, $lastNameErr;
-            
+			
             if(!strlen($lastName) > 0){
                 $validForm = false;
                 $lastNameErr .= "Last name cannot be blank";
@@ -206,7 +212,7 @@
     
         function validateProgram($program){
             global $validForm, $programErr;
-            
+			
             if($program == ""){
                 $programErr = "You must select a program.";
                 $validForm = false;
@@ -215,7 +221,7 @@
     
         function validateWebsiteAddress($websiteAddress){
             global $validForm, $websiteAddressErr;
-            
+			
             if(!preg_match("@^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*$@i", $websiteAddress)){
                 $validForm = false;
                 $websiteAddressErr = "Invalid Website Address!";
@@ -224,8 +230,8 @@
     
         function validateWebsiteAddress2($websiteAddress2){
             global $validForm, $websiteAddressErr2;
-            
-            if(!filter_var($websiteAddress2, FILTER_VALIDATE_URL)){
+
+            if(!preg_match("@^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*$@i", $websiteAddress2)){
                 $validForm = false;
                 $websiteAddressErr2 = "Invalid Website Address!";
             }
@@ -233,7 +239,7 @@
         
         function validateLinkedIn($linkedin){
             global $validForm, $linkedinErr;
-            
+			
             if(!strlen(strstr($linkedin, "linkedin.com/")) > 0){
                 $validForm = false;
                 $linkedinErr = "Invalid LinkedIn Address";
@@ -242,7 +248,7 @@
         
         function validateEmail($email){
             global $validForm, $emailErr;
-            
+			
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $validForm = false;
                 $emailErr = "Invalid Email Address.";
@@ -251,7 +257,7 @@
     
         function validateHometown($hometown){
             global $validForm, $hometownErr;
-            
+			
             if(!strlen($hometown) > 0){
                 $validForm = false;
                 $hometownErr .= "Last name cannot be blank";
@@ -265,7 +271,7 @@
     
         function validateCareerGoals($careerGoals){
             global $validForm,$careerGoalsErr;
-            
+			
             if(!preg_match('^[a-zA-Z0-9,!?&/$#@+.]^',$careerGoals)){
                 $validForm = false;
                 $careerGoalsErr = "Career goals must be alpha numeric";
@@ -282,6 +288,7 @@
         }
 		
 		function honeyPot($honeyPot){
+			
 			if(strlen($honeyPot) > 0){
 				$validForm = false;
 			}
@@ -290,6 +297,10 @@
     if(isset($_POST["submitBio"]))
     {
         if(isset($_POST["email"])){
+            $email = $_POST["email"];
+		}
+		
+		if(isset($_POST["email"])){
             $email = $_POST["email"];
         }
         
@@ -307,6 +318,10 @@
         
         if(isset($_POST["websiteAddress"])){
             $websiteAddress = $_POST["websiteAddress"];
+		}
+		
+		if(isset($_POST["websiteAddress2"])){
+            $websiteAddress = $_POST["websiteAddress2"];
         }
         
         if(isset($_POST["linkedIn"])){
@@ -428,7 +443,7 @@ validateThreeWords
 ?>
 	<h2></h2>
 	</table>
-	<form id="portfolioBioForm" method="post" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
+	<form id="portfolioBioForm" method="post" action="studentInfoForm.php">
 		
 		<table>
 		<tr>
@@ -438,47 +453,47 @@ validateThreeWords
 		<td>First Name:<br> <input type="text" id="firstName" name="firstName" value="<?php echo($firstName) ?>"/><br><span class="error" id="firstNameError"><?php echo($firstNameErr); ?></span></td>
 		</tr>
 		<tr>
-		<td>Last Name:<br> <input type="text" id="lastName" name="lastName" value="<?php echo($lastName) ?>" /><br><span class="error" id="lastNameError"><?= $lastNameErr ?></span></td>
+		<td>Last Name:<br> <input type="text" id="lastName" name="lastName" value="<?php echo($lastName) ?>" /><br><span class="error" id="lastNameError"><?php echo($lastNameErr); ?></span></td>
 		</tr>
 		<tr>
 		<td >Program:<br> <select id="program" name="program">
-				<option value="default" <?php if ($_POST['program'] == 'default') echo 'selected="selected"'; ?>>---Select Your Program---</option>
-				<option value="animation" <?php if ($_POST['program'] == 'animation') echo 'selected="selected"'; ?>>Animation</option>
-				<option value="graphicDesign" <?php if ($_POST['program'] == 'graphicDesign') echo 'selected="selected"'; ?>>Graphic Design</option>
-				<option value="photography" <?php if ($_POST['program'] == 'photography') echo 'selected="selected"'; ?>>Photography</option>
-				<option value="videoProduction" <?php if ($_POST['program'] == 'videoProduction') echo 'selected="selected"'; ?>>Video Production</option>
-				<option value="webDevelopment" <?php if ($_POST['program'] == 'webDevelopment') echo 'selected="selected"'; ?>>Web Development</option>
-			</select><br><span class="error" id="programError"><?= $programErr ?></span><td>
+				<option value="default" <?php// if (isset($_POST['program']) == 'default') echo 'selected="selected"'; ?>>---Select Your Program---</option>
+				<option value="animation" <?php //if (isset($_POST['program']) == 'animation') echo 'selected="selected"'; ?>>Animation</option>
+				<option value="graphicDesign" <?php //if (isset($_POST['program']) == 'graphicDesign') echo 'selected="selected"'; ?>>Graphic Design</option>
+				<option value="photography" <?php //if (isset($_POST['program']) == 'photography') echo 'selected="selected"'; ?>>Photography</option>
+				<option value="videoProduction" <?php //if (isset($_POST['program']) == 'videoProduction') echo 'selected="selected"'; ?>>Video Production</option>
+				<option value="webDevelopment" <?php //if (isset($_POST['program']) == 'webDevelopment') echo 'selected="selected"'; ?>>Web Development</option>
+			</select><br><span class="error" id="programError"><? echo($programErr); ?></span><td>
 		</tr>
 		<tr>
 		<td >Secondary Program:<br> <select id="program2" name="program2">
-				<option value="none" <?php if ($_POST['program2'] == 'none') echo 'selected="selected"'; ?>>---No Secondary Program---</option>
-				<option value="animation" <?php if ($_POST['program2'] == 'animation') echo 'selected="selected"'; ?>>Animation</option>
-				<option value="graphicDesign" <?php if ($_POST['program2'] == 'graphicDesign') echo 'selected="selected"'; ?>>Graphic Design</option>
-				<option value="photography" <?php if ($_POST['program2'] == 'photography') echo 'selected="selected"'; ?>>Photography</option>
-				<option value="videoProduction" <?php if ($_POST['program2'] == 'videoProduction') echo 'selected="selected"'; ?>>Video Production</option>
-				<option value="webDevelopment" <?php if ($_POST['program2'] == 'webDevelopment') echo 'selected="selected"'; ?>>Web Development</option>
-			</select><br><span class="error" id="program2Error"><?= $programErr ?></span><td>
+				<option value="none" <?php //if (isset($_POST['program2']) == 'none') echo 'selected="selected"'; ?>>---No Secondary Program---</option>
+				<option value="animation" <?php //if (isset($_POST['program2']) == 'animation') echo 'selected="selected"'; ?>>Animation</option>
+				<option value="graphicDesign" <?php //if (isset($_POST['program2']) == 'graphicDesign') echo 'selected="selected"'; ?>>Graphic Design</option>
+				<option value="photography" <?php //if (isset($_POST['program2']) == 'photography') echo 'selected="selected"'; ?>>Photography</option>
+				<option value="videoProduction" <?php //if (isset($_POST['program2']) == 'videoProduction') echo 'selected="selected"'; ?>>Video Production</option>
+				<option value="webDevelopment" <?php //if (isset($_POST['program2']) == 'webDevelopment') echo 'selected="selected"'; ?>>Web Development</option>
+			</select><br><span class="error" id="program2Error"><? echo($programErr); ?></span><td>
 		</tr>
 		<tr>
-		<td>Website Address:<br> <input type="text" id="websiteAddress" name="websiteAddress" value="<?php echo($websiteAddress) ?>"/><br><span class="error" id="websiteAddressError"><?= $websiteAddressErr ?></span></td>
+		<td>Website Address:<br> <input type="text" id="websiteAddress" name="websiteAddress" value="<?php echo($websiteAddress) ?>"/><br><span class="error" id="websiteAddressError"><?php echo($websiteAddressErr); ?></span></td>
 		</tr>
 		<tr>
-		<td>Personal Email:<br><input type="text" id="email" name="email" value="<?php echo($email) ?>" /><br><span class="error" id="emailError" ><?= $emailErr ?></span></td>
+		<td>Personal Email:<br><input type="text" id="email" name="email" value="<?php echo($email) ?>" /><br><span class="error" id="emailError" ><?php echo($emailErr); ?></span></td>
 		</tr>
 		<tr>
-		<td>LinkedIn Profile:<br><input type="text" id="linkedIn" name="linkedIn" value="<?php echo($linkedIn) ?>" /><br><span class="error" id="linkedInError"><?= $linkedinErr ?></span></td>
+		<td>LinkedIn Profile:<br><input type="text" id="linkedIn" name="linkedIn" value="<?php echo($linkedIn) ?>" /><br><span class="error" id="linkedInError"><?php echo($linkedinErr); ?></span></td>
 		<tr>
-		<td><span class="secondWeb">Secondary Website Address (git repository, etc.):<br> <input type="text" id="websiteAddress2" name="websiteAddress2" value="<?php echo($websiteAddress2) ?>"/><br><span class="error" id="websiteAddress2Error"><?= $websiteAddressErr2 ?></span></span></td>
+		<td><span class="secondWeb">Secondary Website Address (git repository, etc.):<br> <input type="text" id="websiteAddress2" name="websiteAddress2" value="<?php echo($websiteAddress2); ?>"/><br><span class="error" id="websiteAddress2Error"><?= $websiteAddressErr2 ?></span></span></td>
 		</tr>
 		<tr>
-		<td>Hometown:<br> <input type="text" id="hometown" name="hometown" value="<?php echo($hometown) ?>"/><br><span class="error" id="hometownError"><?= $hometownErr ?></span></td>
+		<td>Hometown:<br> <input type="text" id="hometown" name="hometown" value="<?php echo($hometown) ?>"/><br><span class="error" id="hometownError"><?php echo($hometownErr); ?></span></td>
 		</tr>
 		<tr>
-		<td>Career Goals:<br> <textarea id="careerGoals" name="careerGoals" value="<?php echo($careerGoals) ?>"> </textarea><br><span class="error" id="careerGoalsError"><?= $careerGoalsErr ?></span></td>
+		<td>Career Goals:<br> <textarea id="careerGoals" name="careerGoals" value="<?php echo($careerGoals) ?>"> </textarea><br><span class="error" id="careerGoalsError"><?php echo($careerGoalsErr); ?></span></td>
 		</tr>
 		<tr>
-		<td>3 Words that Describe You:<br> <input type="text" id="threeWords" name="threeWords" value="<?php echo($threeWords) ?>"/><br><span class="error" id="threeWordsError"><?php echo($threewordsErr) ?></span></td>
+		<td>3 Words that Describe You:<br> <input type="text" id="threeWords" name="threeWords" value="<?php echo($threeWords) ?>"/><br><span class="error" id="threeWordsError"><?php echo($threewordsErr); ?></span></td>
 		<p class="robotic" id="pot">
 			<label>Leave Blank</label>
 			<input type="hidden" name="honeyPot" id="inRobotest" class="inRobotest" value="" />
