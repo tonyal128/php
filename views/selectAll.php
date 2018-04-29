@@ -20,6 +20,10 @@
 		<td>Name</td>
 		<td>Description</td>
 <?php 
+    if($stmt->rowCount() == 0){
+        echo "No rows returned";
+    }
+
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
 		echo "<tr>";
