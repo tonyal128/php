@@ -1,25 +1,33 @@
 <?php
-    $conn = require("../models/connectionSkills.php");
 
-    $name = "";
-    $description = "";
-    $presenter = "";
-    $day = "";
-    $time = "";
-    $query = "";
-    $rowCount = "";
-    
-    try{
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+session_start();
+    if(!$_SESSION['valid']) {
+      header("location:login.php"); 
+      die(); 
     }
-    catch(PDOException $e){
-        echo "Connection failed: " . $e->getMessage();
+    else{
+        $conn = require("../models/connectionSkills.php");
+
+        $name = "";
+        $description = "";
+        $presenter = "";
+        $day = "";
+        $time = "";
+        $query = "";
+        $rowCount = "";
+        
+        try{
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        catch(PDOException $e){
+            echo "Connection failed: " . $e->getMessage();
+        }
+        $query = "SELECT event_name,event_description,event_presenter,event_day,event_time FROM wdv341_events";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
     }
-    $query = "SELECT event_name,event_description,event_presenter,event_day,event_time FROM wdv341_events";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
 ?>
 <!DOCTYPE html>
 <html>
