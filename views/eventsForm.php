@@ -1,4 +1,10 @@
 <?php
+    session_start();
+    if(!$_SESSION['valid']) {
+      header("location:login.php"); 
+      die(); 
+    }
+    
     $dbError = "";
     $name = "";
     $description = "";

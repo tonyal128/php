@@ -1,4 +1,10 @@
 <?php
+    session_start();
+    if(!$_SESSION['valid']) {
+      header("location:login.php"); 
+      die(); 
+    }
+    
     $conn = require("connectionSkills.php");		//connects to the database
     
     try{
