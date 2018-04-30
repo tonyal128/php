@@ -4,7 +4,7 @@
       header("location:login.php"); 
       die(); 
     }
-    
+    $eventId = $_GET["eventID"];
     $conn = require("connectionSkills.php");//connects to the database
     
     try{
@@ -21,7 +21,7 @@
     $date = "";
     $time = "";
     $presenter = "";
-    $eventId = $_GET["eventID"];
+    
 
     function getData(){
         global $conn, $name,$presenter,$description,$date,$time,$eventId;
@@ -102,7 +102,7 @@
         }
         if(isset($_POST["event-description"])){
             global $description;
-            $description = $_POST["event-description"];
+            $description2 = $_POST["event-description"];
         }
         if(isset($_POST["event-presenter"])){
             global $presenter;
@@ -116,29 +116,31 @@
         }
         if(isset($_POST["event-time"])){
             global $time;
-            $time = $_POST["event-time"];
+            $time2 = $_POST["event-time"];
             validateTime($time);
         }
-        updateEvent();
-    }
-
-    function updateEvent(){
-        global $conn, $eventId, $name, $description, $presenter, $date, $time;
-        $eventId = $_GET["eventID"];
         try{
             $stmt = $conn->prepare("UPDATE wdv341_event SET event_name = :eventName, event_description = :eventdesc, event_presenter = :presenter, event_date = :dt, event_time = :eventtime WHERE event_id = :id");
             $stmt->bindParam(':id', $eventId, PDO::PARAM_INT);
             $stmt->bindParam(':eventName', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':eventdesc', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':eventdesc', $description2, PDO::PARAM_STR);
             $stmt->bindParam(':presenter', $presenter, PDO::PARAM_STR);
             $stmt->bindParam(':dt', $date, PDO::PARAM_STR);
-            $stmt->bindParam(':eventtime', $time, PDO::PARAM_STR);
+            $stmt->bindParam(':eventtime', $time2, PDO::PARAM_STR);
             $stmt->execute();
-            header('Location: ../views/selectAll.php?message=Successfully Updated id '. $eventId);
+            header('Location: ../views/selectAll.php?message=Successfully Updated id '. $eventId); 
         }
         catch(PDOException $e){
             echo $e->getMessage();
         }
+    }
+
+    
+    
+    function updateEvent(){
+        global $conn, $eventId, $name, $description, $presenter, $date, $time;
+        $eventId = $_GET["eventID"];
+        
     }
 ?>
 

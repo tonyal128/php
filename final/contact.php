@@ -23,6 +23,7 @@
         $contactEmail->sendEmail();
     }
 
+    sendConfirmation();
     function sendConfirmation(){
         $confirmation = new email();
 

@@ -6,3 +6,7 @@ body {
     width: 19px;
     height: 19px;
 }
+
+button{
+    padding: 4px;
+}
