@@ -198,7 +198,7 @@ class update{
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="final.php">PHP<span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="admin.php">PHP<span class="sr-only">(current)</span></a></li>
                     <li><a href="contact.php">Contact</a></li>
                     <li><a href="../models/logout.php">Logout<span class="sr-only">(current)</span></a></li>
                 </ul>

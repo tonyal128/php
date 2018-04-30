@@ -51,30 +51,8 @@
                 echo('Email not sent');
             }
             else { // if email sent confirm
-                echo('Email Sent');
+                echo('<h1>Confirmation Email Sent!</h1>');
             }
         }
-    }
-
-    if(isset($_POST["submit"])){
-        $newEmail = new email();
-        
-        if(isset($_POST["from"])){
-            $newEmail->setSender($_POST["from"]);
-        }
-        
-        if(isset($_POST["to"])){
-            $newEmail->setSendTo($_POST["to"]);
-        }
-        
-        if(isset($_POST["subject"])){
-            $newEmail->setSubject($_POST["subject"]);
-        }
-        
-        if(isset($_POST["message"])){
-            $newEmail->setMessage($_POST["message"]);
-        }
-        
-        $newEmail->sendEmail();
     }
 ?>

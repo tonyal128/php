@@ -21,9 +21,9 @@
         $contactEmail->setSendTo($to);
 
         $contactEmail->sendEmail();
+        sendConfirmation();
     }
 
-    sendConfirmation();
     function sendConfirmation(){
         $confirmation = new email();
 
@@ -75,7 +75,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="final.php">PHP</a></li>
+                    <li><a href="admin.php">PHP</a></li>
                     <li class="active"><a href="contact.php">Contact<span class="sr-only">(current)</span></a></li>
                     <li><a href="login.php">Login</a></li>
                 </ul>
