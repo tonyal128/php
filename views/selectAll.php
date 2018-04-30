@@ -29,8 +29,14 @@
 		echo "<tr>";
 			echo "<td>" . $row['event_id'] . "</td>";
 			echo "<td>" . $row['event_name'] . "</td>";	
-			echo "<td>" . $row['event_description'] . "</td>";	
+			echo "<td>" . $row['event_description'] . "</td>";
+			echo "<td><a href='updateEvent.php?eventID=" . $row['event_id'] . "'>Update</a></td>"; 
+			echo "<td><a href='../models/deleteEvent.php?eventID=" . $row['event_id'] . "'>Delete</a></td>"; 		
 		echo "</tr>";
+	}
+
+	if(isset($_GET['message'])){
+		echo $_GET['message'];
 	}
 ?>
 </table>
