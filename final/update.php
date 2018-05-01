@@ -46,14 +46,15 @@ class update{
     }
 }
 
-
-    $update = new update();
-   
     session_start();
     if(!$_SESSION['valid']) {
       header("location:login.php"); 
       die(); 
     }
+    
+    $update = new update();
+   
+    
 
     $dbError = "";
     $name = "";
@@ -92,12 +93,14 @@ class update{
             $flavor = $update->getFlavor();
             $sku = $update->getSku();
 
+            /*PREPARE UPDATE*/
             $stmt = $conn->prepare("UPDATE drinks SET 
             drink_name = :name, 
             quantity = :quantity, 
             flavor = :flavor 
             WHERE sku = :sku");
 
+            /*EXECUTE UPDATE*/
             $stmt->execute(array(
             ":name" => $name,
             ":quantity" => $quantity,
