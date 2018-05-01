@@ -50,7 +50,7 @@
     <br />
     <a href="../views/displayEvents.php">Display Events</a>
     <br />
-    <a href="../final/login.php">Final</a>
+    <a href="../final/final.php">Final</a>
     <br />
     
 
