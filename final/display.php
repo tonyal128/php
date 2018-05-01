@@ -10,7 +10,6 @@ session_start();
 
         $name = "";
         $flavor = "";
-        $presenter = "";
         $quantity = "";
         $query = "";
         $rowCount = "";
